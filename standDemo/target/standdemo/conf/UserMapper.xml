@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.ctyun.standdemo.dao.UserMapper">
+    <resultMap id="BaseResultMap" type="cn.ctyun.standdemo.model.User">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="age" property="age" jdbcType="INTEGER"/>
+        <result column="desc" property="desc" jdbcType="VARCHAR"/>
+        <result column="address" property="address" jdbcType="VARCHAR"/>
+        <result column="createTime" property="createtime" jdbcType="VARCHAR"/>
+        <result column="updateTime" property="updatetime" jdbcType="VARCHAR"/>
+        <result column="deletedTime" property="deletedtime" jdbcType="VARCHAR"/>
+        <result column="isDeleted" property="isdeleted" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="userRole" type="cn.ctyun.standdemo.model.User">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="age" property="age" jdbcType="INTEGER"/>
+        <result column="desc" property="desc" jdbcType="VARCHAR"/>
+        <result column="address" property="address" jdbcType="VARCHAR"/>
+        <result column="createTime" property="createtime" jdbcType="VARCHAR"/>
+        <result column="updateTime" property="updatetime" jdbcType="VARCHAR"/>
+        <result column="deletedTime" property="deletedtime" jdbcType="VARCHAR"/>
+        <result column="isDeleted" property="isdeleted" jdbcType="VARCHAR"/>
+        <collection property="userRole" ofType="cn.ctyun.standdemo.model.UserRole">
+            <id column="id" property="id"/>
+            <result property="userId" column="userid"/>
+            <association property="role" javaType="cn.ctyun.standdemo.model.Role">
+                <id column="id" property="id"/>
+                <result column="rolename" property="rolename"/>
+            </association>
+        </collection>
+    </resultMap>
+
+    <select id="selectUserRole" resultMap="userRole">
+    SELECT tuser.*,trole.rolename
+    FROM  tuser ,tuser_Role ,trole
+    WHERE tuser.id=tuser_Role.userid AND tuser_role.roleid=trole.id
+   </select>
+
+
+    <sql id="Base_Column_List">
+    id, `name`, age, `desc`, address, createTime, updateTime, deletedTime, isDeleted
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from tuser
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectByParam" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tuser
+        <where>
+            id LIKE "%"#{id}"%";
+        </where>
+    </select>
+
+    <select id="getAll2" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from tuser
+        <where>
+            id LIKE "%"#{id}"%";
+        </where>
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from tuser
+    where id = #{id,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="cn.ctyun.standdemo.model.User">
+    insert into tuser (id, `name`, age,
+      `desc`, address, createTime,
+      updateTime, deletedTime, isDeleted
+      )
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER},
+      #{desc,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{createtime,jdbcType=VARCHAR}, 
+      #{updatetime,jdbcType=VARCHAR}, #{deletedtime,jdbcType=VARCHAR}, #{isdeleted,jdbcType=VARCHAR}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="cn.ctyun.standdemo.model.User">
+        insert into tuser
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="name != null">
+                `name`,
+            </if>
+            <if test="age != null">
+                age,
+            </if>
+            <if test="desc != null">
+                `desc`,
+            </if>
+            <if test="address != null">
+                address,
+            </if>
+            <if test="createtime != null">
+                createTime,
+            </if>
+            <if test="updatetime != null">
+                updateTime,
+            </if>
+            <if test="deletedtime != null">
+                deletedTime,
+            </if>
+            <if test="isdeleted != null">
+                isDeleted,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="age != null">
+                #{age,jdbcType=INTEGER},
+            </if>
+            <if test="desc != null">
+                #{desc,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null">
+                #{createtime,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null">
+                #{updatetime,jdbcType=VARCHAR},
+            </if>
+            <if test="deletedtime != null">
+                #{deletedtime,jdbcType=VARCHAR},
+            </if>
+            <if test="isdeleted != null">
+                #{isdeleted,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="cn.ctyun.standdemo.model.User">
+        update tuser
+        <set>
+            <if test="name != null">
+                `name` = #{`name`,jdbcType=VARCHAR},
+            </if>
+            <if test="age != null">
+                age = #{age,jdbcType=INTEGER},
+            </if>
+            <if test="desc != null">
+                `desc` = #{desc,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                address = #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null">
+                createTime = #{createtime,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null">
+                updateTime = #{updatetime,jdbcType=VARCHAR},
+            </if>
+            <if test="deletedtime != null">
+                deletedTime = #{deletedtime,jdbcType=VARCHAR},
+            </if>
+            <if test="isdeleted != null">
+                isDeleted = #{isdeleted,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="cn.ctyun.standdemo.model.User">
+    update tuser
+    set `name` = #{name,jdbcType=VARCHAR},
+      age = #{age,jdbcType=INTEGER},
+      `desc` = #{desc,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=VARCHAR},
+      updateTime = #{updatetime,jdbcType=VARCHAR},
+      deletedTime = #{deletedtime,jdbcType=VARCHAR},
+      isDeleted = #{isdeleted,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

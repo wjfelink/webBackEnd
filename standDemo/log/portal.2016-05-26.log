@@ -1,0 +1,3 @@
+2016-05-26 16:07:18|212 [qtp670278-42] INFO  cn.ctyun.core.base.rest.dispatch.RESTDispatcher.handle:163 - ---> URI: /api/getUserById, Method: POST
+2016-05-26 16:07:18|225 [qtp670278-42] INFO  cn.ctyun.core.base.rest.dispatch.RESTDispatcher.handle:165 - ---> Response: {"statusCode":800,"returnObj":{"id":"1","name":"wjf","age":12}}
+2016-05-26 16:07:18|227 [qtp670278-42] INFO  cn.ctyun.core.base.rest.dispatch.RESTDispatcher.handle:174 - ---> Execute time: 15us
